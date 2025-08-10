@@ -100,7 +100,7 @@ def welcome():
 class SongQuery(BaseModel):
     song_name: str
 
-@app.post("/youtube")
+@app.post("/search-music")
 def search_song(query: SongQuery):
     ydl_opts = {
         "quiet": True,
@@ -113,8 +113,7 @@ def search_song(query: SongQuery):
         search_query = f"ytsearch5:{query.song_name} song"
         info = ydl.extract_info(search_query, download=False)
         videos = info.get('entries', [])
-    results = [{ "id": video['id'], "title": video['title'] } for video in videos]
-    return {"results": results}
+    return {"videos": videos}
 
 class DownloadRequest(BaseModel):
     video_id: str
